@@ -17,7 +17,9 @@ jobs:
           python-version: '3.11'
 
       - name: Install project
-        run: pip install .
+        run: |
+          pip install git+https://github.com/vennelavarshini18/osmium.git@04797f2
+          pip install .
 
       - name: Install test tools
         run: pip install pytest
