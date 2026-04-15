@@ -4,7 +4,7 @@ import logging
 from pathlib import Path
 from typing import Any
 
-from osmium import parse_frontmatter, normalize_metadata
+from osmium import parse_frontmatter
 from markdown import Markdown
 
 from .models import Page
@@ -46,6 +46,7 @@ def load_pages(content_dir: Path, output_dir: Path) -> list[Page]:
     for path in discover_markdown_files(content_dir):
         raw_text = path.read_text(encoding="utf-8")
         metadata, body = parse_frontmatter(raw_text)
+        metadata = metadata or {}
         slug = _slug_for(path, content_dir)
         output_path = _output_path_for(slug, output_dir)
         title = _title_from_metadata(metadata, path)
