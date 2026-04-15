@@ -24,8 +24,8 @@ jobs:
       - name: Install test tools
         run: pip install pytest
 
-      - name: Build site
-        run: mobius build
-
       - name: Run tests
         run: pytest
+
+      - name: Build site
+        run: mobius build
