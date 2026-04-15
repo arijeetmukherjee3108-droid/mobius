@@ -47,6 +47,7 @@ def load_pages(content_dir: Path, output_dir: Path) -> list[Page]:
         raw_text = path.read_text(encoding="utf-8")
         metadata, body = parse_frontmatter(raw_text)
         metadata = metadata or {}
+        metadata = {str(k): v for k, v in metadata.items()}
         slug = _slug_for(path, content_dir)
         output_path = _output_path_for(slug, output_dir)
         title = _title_from_metadata(metadata, path)
