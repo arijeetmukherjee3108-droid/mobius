@@ -28,15 +28,21 @@ jobs:
               'Build site',
               'Run tests',
           ]
+
           missing = [name for name in required if name not in names]
           if missing:
               raise SystemExit(f'missing workflow steps: {missing}')
 
-          install_step = next(step for step in workflow['jobs']['test']['steps'] if step.get('name') == 'Install project')
+          install_step = next(
+              step for step in workflow['jobs']['test']['steps']
+              if step.get('name') == 'Install project'
+          )
           run_block = install_step.get('run', '')
+
           if 'pip install .' not in run_block:
               raise SystemExit('build workflow must install the project with pip install .')
-            if 'pip install -e' in run_block:
+
+          if 'pip install -e' in run_block:
               raise SystemExit('build workflow must not install the dependency manually')
           PY
 
@@ -58,9 +64,14 @@ jobs:
 
           output = Path('site')
           expected = Path('expected_site')
+
           out_files = files(output)
           exp_files = files(expected)
-          assert [p.relative_to(output) for p in out_files] == [p.relative_to(expected) for p in exp_files]
+
+          assert [p.relative_to(output) for p in out_files] == [
+              p.relative_to(expected) for p in exp_files
+          ]
+
           for generated in out_files:
               ref = expected / generated.relative_to(output)
               assert cmp(generated, ref, shallow=False)
